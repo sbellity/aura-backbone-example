@@ -1,0 +1,9 @@
+<h1><%= repo %> !</h1>
+<ul class='unstyled'>
+<% _.each(issues, function(issue) { %>
+<li class='well'>
+  <h5><span class="label"><%= issue.number %></span> <%= issue.title %></h5>
+  <p><%= issue.body %></p>
+</li>
+<% }); %>
+</ul>
