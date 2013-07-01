@@ -25,7 +25,10 @@ define(['text!./display-issue.html'], function(template) {
 
         if (!!issue.number) {
           this.sandbox.emit(eventName, issue, reset);
+          this.$el.find('input[name="number"]').val(parseInt(issue.number, 10) + 1);
         }
+
+
         e.preventDefault();
         return false;
       }
