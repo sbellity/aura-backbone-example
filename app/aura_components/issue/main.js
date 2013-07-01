@@ -28,7 +28,7 @@ define({
       issueData.summary = issue.getSummary();
     }
     this.html(this.renderTemplate('issue', { issue: issueData, repo: this.options.repo }));
-    var issueId = [issue.get('repo').replace('/', '-'), issue.get('number')].join('-');
+    var issueId = [issue.get('repo'), issue.get('number')].join('/');
     this.$el.attr('data-issue', issueId);
   }
 

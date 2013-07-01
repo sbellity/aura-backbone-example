@@ -8,7 +8,7 @@ define({
   initialize: function() {
 
     function getIssueId(issue) {
-      return [issue.repo.replace('/', '-'), issue.number].join('-');
+      return [issue.repo, issue.number].join('/');
     }
 
 
