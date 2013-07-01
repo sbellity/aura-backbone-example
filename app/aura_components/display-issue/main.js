@@ -20,14 +20,17 @@ define(['text!./display-issue.html'], function(template) {
        
         var eventName = 'issues.add';
         if (this.action === 'stop') {
-          var eventName = 'issues.remove';
+          eventName = 'issues.remove';
         }
 
         if (!!issue.number) {
           this.sandbox.emit(eventName, issue, reset);
-          this.$el.find('input[name="number"]').val(parseInt(issue.number, 10) + 1);
+          if (this.action !== 'stop') {
+            this.$el.find('input[name="number"]').val(parseInt(issue.number, 10) + 1);
+          } else {
+            this.$el.find('input[name="number"]').val(parseInt(issue.number, 10) - 1);
+          }
         }
-
 
         e.preventDefault();
         return false;
@@ -44,6 +47,6 @@ define(['text!./display-issue.html'], function(template) {
       this.$el.html(this.template({ repos: this.repos }));
       this.$el.find('input[type="text"]').focus();
     }
-  }
+  };
 
 });

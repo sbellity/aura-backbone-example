@@ -13,7 +13,7 @@
 
       var Views = {};
 
-      app.core.registerWidgetCallback('before:initialize', function(options) {
+      app.core.registerComponentCallback('before:initialize', function(options) {
         var View = Views[options.ref]
         if (!View) {
           var ext = _.pick(this, 'model', 'collection', 'id', 'attributes', 'className', 'tagName', 'events');
@@ -24,7 +24,7 @@
         this.view.render();
       });
 
-      app.core.registerWidgetCallback('before:remove', function() {
+      app.core.registerComponentCallback('before:remove', function() {
         this.view && this.view.stopListening();
       });
 
