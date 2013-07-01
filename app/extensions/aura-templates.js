@@ -73,7 +73,6 @@ define(['underscore', 'jquery'], function(_, $) {
     var manager = new TemplateManager(app.config.template);
 
     app.core.Components.Base.prototype.renderTemplate = function(tplName, context) {
-      console.warn("This Templates", tplName, this._templates[tplName], _.keys(this._templates));
       var tpl = this._templates[tplName];
       if (typeof tpl === 'function') {
         return tpl(context);
