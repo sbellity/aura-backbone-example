@@ -81,7 +81,7 @@ define(['underscore', 'jquery'], function(_, $) {
       }
     };
 
-    app.core.registerComponentCallback('before:initialize', function() {
+    app.components.before('initialize', function() {
 
       this._templates = {};
 

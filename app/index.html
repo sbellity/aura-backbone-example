@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <title>Aura Awesome</title>
-    <script src="./components/handlebars/handlebars.js"></script>
     <script data-main="app" src="./components/requirejs/require.js"></script>
   </head>
   <body>
@@ -14,9 +13,6 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
             </ul>
             <ul class="nav pull-right">
               <li><a href="#">Link</a></li>
@@ -25,9 +21,8 @@
         </div>
       </div>
     </div>
-    <div class='container'>
-
-      <div data-aura-widget='display-issue' class='hero-unit' data-aura-repos='aurajs/aura,documentcloud/backbone'></div>
+    <div class='container' id='container'>
+      <div data-aura-widget='display-issue' class='hero-unit' data-aura-repos='aurajs/aura,jashkenas/backbone'></div>
       <div data-aura-widget="issues"></div>
     </div>
     <link rel="stylesheet" type="text/css" href="//hullstrap.s3.amazonaws.com/stylesheets/hullstrap.css" />

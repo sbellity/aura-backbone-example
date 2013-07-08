@@ -13,7 +13,7 @@
 
       var Views = {};
 
-      app.registerComponentCallback('before:initialize', function(options) {
+      app.components.before('initialize', function(options) {
         var View = Views[options.ref]
         if (!View) {
           var ext = _.pick(this, 'model', 'collection', 'id', 'attributes', 'className', 'tagName', 'events');
@@ -24,18 +24,10 @@
         this.view.render();
       });
 
-      app.registerComponentCallback('before:remove', function() {
+      app.components.before('remove', function() {
         this.view && this.view.stopListening();
       });
 
-    },
-
-    afterAppStart: function(app) {
-      if (!historyStarted) {
-        app.core.mvc.history.start();
-        historyStarted = true;
-      }
     }
-
   })
 })();
