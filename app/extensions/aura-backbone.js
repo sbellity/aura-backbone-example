@@ -3,7 +3,7 @@
   define({
     name: "Aura Backbone",
     require: {
-      paths:  { backbone: 'components/backbone/backbone' },
+      paths:  { backbone: 'bower_components/backbone/backbone' },
       shim:   { backbone: { exports: 'Backbone', deps: ['underscore', 'jquery'] } }
     },
     
@@ -13,6 +13,8 @@
 
       var Views = {};
 
+      // Injecting a Backbone view in the Component just before initialization.
+      // This View's class will be built and cached this first time the component is included.
       app.components.before('initialize', function(options) {
         var View = Views[options.ref]
         if (!View) {
@@ -21,7 +23,6 @@
         }
         this.view = new View({ el: this.$el });
         this.view.sandbox = this.sandbox;
-        this.view.render();
       });
 
       app.components.before('remove', function() {
