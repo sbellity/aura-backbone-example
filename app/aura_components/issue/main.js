@@ -1,35 +1,46 @@
-define({
-  templates: ['issue'],
+define(['./collections/issue-comments'], function(IssueCommentsCollection) {
+  return {
+    templates: ['issue'],
 
-  className: 'span6',
+    className: 'span6',
 
-  events: {
-    'click .close' : function() {
-      this.sandbox.stop();
+    events: {
+      'click .close' : function() {
+        this.sandbox.stop();
+      }
+    },
+
+    initialize: function() {
+      var issue = new this.sandbox.mvc.models.Issue({ 
+        repo:   this.options.repo, 
+        number: this.options.number 
+      });
+      var comments = new IssueCommentsCollection([], { issue: issue });
+      this.data = { issue: issue, comments: comments };
+      this.view.listenTo(issue,     'sync', _.bind(this.render, this));
+      this.view.listenTo(comments,  'sync', _.bind(function(cmts) {
+        console.warn("Yeah, we have comments !", cmts);
+        this.render();
+      }, this));
+      this.view.listenTo(issue, 'error', _.bind(function() { this.render(this.data, 'error'); }, this));
+      issue.fetch().then(function() {
+        comments.fetch();  
+      });
+    },
+
+    render: function(data, error) {
+      var context = { repo: this.options.repo };
+
+      if (error === 'error') {
+        context.issue = { error: "Error retrieving issue #" + this.options.number };
+      } else {
+        context.issue     = this.data.issue.toJSON();
+        context.summary   = this.data.issue.getSummary();
+        context.comments  = this.data.comments.toJSON()
+      }
+      this.html(this.renderTemplate('issue', context));
+      var issueId = [this.data.issue.get('repo'), this.data.issue.get('number')].join('/');
+      this.$el.attr('data-issue', issueId);
     }
-  },
-
-  initialize: function() {
-    var issue = new this.sandbox.mvc.models.Issue({ 
-      repo:   this.options.repo, 
-      number: this.options.number 
-    });
-    this.view.listenTo(issue, 'sync', _.bind(this.render, this));
-    this.view.listenTo(issue, 'error', _.bind(function() { this.render(issue, 'error'); }, this));
-    issue.fetch();
-  },
-
-  render: function(issue, error) {
-    var issueData = {};
-    if (error === 'error') {
-      issueData.error   = "Error retrieving issue #" + this.options.number;
-    } else {
-      issueData = issue.toJSON();
-      issueData.summary = issue.getSummary();
-    }
-    this.html(this.renderTemplate('issue', { issue: issueData, repo: this.options.repo }));
-    var issueId = [issue.get('repo'), issue.get('number')].join('/');
-    this.$el.attr('data-issue', issueId);
   }
-
 });
