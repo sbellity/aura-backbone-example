@@ -18,13 +18,10 @@ define(['./collections/issue-comments'], function(IssueCommentsCollection) {
       var comments = new IssueCommentsCollection([], { issue: issue });
       this.data = { issue: issue, comments: comments };
       this.view.listenTo(issue,     'sync', _.bind(this.render, this));
-      this.view.listenTo(comments,  'sync', _.bind(function(cmts) {
-        console.warn("Yeah, we have comments !", cmts);
-        this.render();
-      }, this));
+      this.view.listenTo(comments,  'sync', _.bind(this.render, this));
       this.view.listenTo(issue, 'error', _.bind(function() { this.render(this.data, 'error'); }, this));
       issue.fetch().then(function() {
-        comments.fetch();  
+        comments.fetch();
       });
     },
 
@@ -34,9 +31,10 @@ define(['./collections/issue-comments'], function(IssueCommentsCollection) {
       if (error === 'error') {
         context.issue = { error: "Error retrieving issue #" + this.options.number };
       } else {
-        context.issue     = this.data.issue.toJSON();
-        context.summary   = this.data.issue.getSummary();
-        context.comments  = this.data.comments.toJSON()
+        context.issue       = this.data.issue.toJSON();
+        context.summary     = this.data.issue.getSummary();
+        context.comments    = this.data.comments.toJSON()
+        context.commenters  = this.data.comments.userLogins();
       }
       this.html(this.renderTemplate('issue', context));
       var issueId = [this.data.issue.get('repo'), this.data.issue.get('number')].join('/');
